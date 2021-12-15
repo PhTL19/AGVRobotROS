@@ -55,9 +55,7 @@ add_message_files(
 
 ## Generate services in the 'srv' folder
 # add_service_files(
-#   FILES
-#   Service1.srv
-#   Service2.srv
+  # FILES
 # )
 
 ## Generate actions in the 'action' folder
@@ -105,9 +103,8 @@ generate_messages(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES avg_robot
-#  CATKIN_DEPENDS roscpp rospy std_msgs
+ CATKIN_DEPENDS roscpp rospy std_msgs message_runtime
 #  DEPENDS system_lib
-  CATKIN_DEPENDS message_runtime
 )
 
 ###########

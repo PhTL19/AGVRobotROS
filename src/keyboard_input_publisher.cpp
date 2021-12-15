@@ -162,24 +162,19 @@ class TeleopRobot
 public:
   TeleopRobot();
   void keyLoop();
-
 private:
-
   ros::NodeHandle nh_;
   std::string _navigation;
-  ros::Publisher twist_pub_;
+  ros::Publisher _pub;
   
 };
 
 TeleopRobot::TeleopRobot():
-_navigation()
-{
+  _navigation() {
+    _pub = nh_.advertise<avg_robot::Navigation>("input_keyboard", 1);
+  }
 
-  twist_pub_ = nh_.advertise<avg_robot::Navigation>("input_keyboard", 1);
-}
-
-void quit(int sig)
-{
+void quit(int sig) {
   (void)sig;
   input.shutdown();
   ros::shutdown();
@@ -187,8 +182,7 @@ void quit(int sig)
 }
 
 
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv) {
   ros::init(argc, argv, "keyboard_robot_publisher");
   TeleopRobot teleop_robot;
 
@@ -208,7 +202,7 @@ void TeleopRobot::keyLoop()
 
   puts("Reading from keyboard");
   puts("---------------------------");
-  puts("Use arrow keys to move the turtle. 'q' to quit.");
+  puts("Use arrow keys to move. 'q' to quit.");
 
   for(;;)
   {
@@ -256,16 +250,13 @@ void TeleopRobot::keyLoop()
 
     avg_robot::Navigation navi;
     navi.navigation=_navigation;
-    if(dirty ==true)
+    if(dirty == true)
     {
-      twist_pub_.publish(navi);    
-      dirty=false;
+      _pub.publish(navi);    
+      dirty = false;
     }
   }
 
 
   return;
 }
-
-
-
